@@ -17,13 +17,15 @@ public class UserService {
     private UserRepository userRepository;
 
     @Transactional // insert가 동시에 안되고 메서드 자체는 동시에 가능함. 하지만 동시접근 불가능으로 생각하면
-    public int 회원가입(JoinReqDto joinReqDto){
+    public void 회원가입(JoinReqDto joinReqDto){
         User sameUser = userRepository.findByUsername(joinReqDto.getUsername());
         if (sameUser != null) {
             throw new CustomException("동일한 username이 존재합니다");
         }
         int result = userRepository.insert(joinReqDto.getUsername(), joinReqDto.getPassword(), joinReqDto.getEmail());
-        return result;
+        if (result != 1) {// 이거를 controller가 받아서 처리 할 필요가 없으므로 void로 여기서 처리하고 끝냄
+            throw new CustomException("회원가입실패");
+        }
     }
 
     // 한번 봤던 데이터를 계속 보기위하여 readOnly를 걸어줌

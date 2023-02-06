@@ -15,6 +15,6 @@ public class CustomExceptionHanlder {
     @ExceptionHandler(CustomException.class)
     public ResponseEntity<?> customException(CustomException e){
         String responseBody = Script.back(e.getMessage());
-        return new ResponseEntity<>(responseBody, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(responseBody, e.getStatus());
     }
 }

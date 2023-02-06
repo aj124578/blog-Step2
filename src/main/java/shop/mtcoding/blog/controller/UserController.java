@@ -38,11 +38,8 @@ public class UserController {
             throw new CustomException("email을 작성해주세요");
         }
 
-        int result = userService.회원가입(joinReqDto);
-        if(result != 1){
-            throw new CustomException("회원가입실패");
-        }
-        
+        userService.회원가입(joinReqDto); // 받아서 서비스에서 처리하게 넘기면 됨
+      
         return "redirect:/loginForm";
     }
 
