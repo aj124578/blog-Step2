@@ -36,7 +36,7 @@ public class UserController {
         }
         if (joinReqDto.getEmail() == null || joinReqDto.getEmail().isEmpty()) {
             throw new CustomException("email을 작성해주세요");
-        }
+        } 
 
         userService.회원가입(joinReqDto); // 받아서 서비스에서 처리하게 넘기면 됨
       

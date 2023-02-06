@@ -11,7 +11,6 @@ import shop.mtcoding.blog.util.Script;
 @RestControllerAdvice
 public class CustomExceptionHanlder {
     
-
     @ExceptionHandler(CustomException.class)
     public ResponseEntity<?> customException(CustomException e){
         String responseBody = Script.back(e.getMessage());
