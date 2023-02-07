@@ -1,7 +1,7 @@
 package shop.mtcoding.blog.controller;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.sql.Timestamp;
@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,6 +71,10 @@ public class BoardControllerTest {
 
         // then
         resultActions.andExpect(status().isOk());
+        Assertions.assertThat(dtos.size()).isEqualTo(6);
+        Assertions.assertThat(dtos.get(0).getUsername()).isEqualTo("ssar");
+    
+
     }
 
     @Test
