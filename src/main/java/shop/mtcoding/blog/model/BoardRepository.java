@@ -17,7 +17,7 @@ public interface BoardRepository {
 
     public List<User> findAll();
 
-    public User findById(int id);
+    public Board findById(int id);
 
     public User findByUsernameAndPassword(@Param("username") String username, @Param("password") String password);
 
