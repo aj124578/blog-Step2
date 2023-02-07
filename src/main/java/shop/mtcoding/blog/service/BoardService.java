@@ -8,6 +8,7 @@ import shop.mtcoding.blog.dto.board.BoardReq.BoardSaveReqDto;
 import shop.mtcoding.blog.handler.ex.CustomException;
 import shop.mtcoding.blog.model.BoardRepository;
 
+@Transactional(readOnly = true)
 @Service
 public class BoardService {
     
@@ -23,4 +24,6 @@ public class BoardService {
         }
         return 1;
     }
+
+ 
 }

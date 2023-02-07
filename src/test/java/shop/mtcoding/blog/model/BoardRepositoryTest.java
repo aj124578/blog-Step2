@@ -12,6 +12,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import shop.mtcoding.blog.dto.board.BoardResp.BoardMainRespDto;
 
+// F - DS - C - S - R - MyBatis - DB
 @MybatisTest
 public class BoardRepositoryTest {
 
