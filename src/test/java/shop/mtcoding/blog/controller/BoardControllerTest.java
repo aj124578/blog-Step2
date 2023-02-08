@@ -77,7 +77,6 @@ public class BoardControllerTest {
         String requestBody = om.writeValueAsString(boardUpdateReqDto);
         System.out.println("테스트 : " + requestBody);
 
-
         // when
         ResultActions resultActions = mvc.perform(
                 put("/board/" + id)
@@ -88,7 +87,6 @@ public class BoardControllerTest {
         // then
         resultActions.andExpect(status().isOk());
         resultActions.andExpect(jsonPath("$.code").value(1));
-        
     }
 
 

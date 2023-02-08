@@ -20,14 +20,24 @@ public class BoardService {
     private BoardRepository boardRepository;
 
     // where 절에 걸리는 파라메터를 앞에 받고 , 나머지는 뒤에 받기 dto는 body 데이터 
+   
+    // 1. content 내용을 Document로 받고, img 찾아내서 (0, 1, 2), src를 찾아서 thumbnail 추가
+    
     @Transactional
-    public int 글쓰기(BoardSaveReqDto boardSaveReqDto, int userId){
-        int result = boardRepository.insert(boardSaveReqDto.getTitle(), boardSaveReqDto.getContent(), userId);
+    public void 글쓰기(BoardSaveReqDto boardSaveReqDto, int userId) {
+
+        // 1. content 내용을 Document로 받고, img 찾아내서(0, 1, 2), src를 찾아서 thumbnail 추가
+
+        int result = boardRepository.insert(
+                boardSaveReqDto.getTitle(),
+                boardSaveReqDto.getContent(),
+                null,
+                userId);
         if (result != 1) {
-            throw new CustomException("글쓰기 실패");
+            throw new CustomException("글쓰기 실패", HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return 1;
     }
+
 
     @Transactional
     public void 게시글삭제(int id, int userId) {
@@ -55,7 +65,7 @@ public class BoardService {
         }
 
         if (boardPS.getUserId() != principalId) {
-            throw new CustomException("게시글을 수정할 권한이 없습니다.", HttpStatus.FORBIDDEN);
+            throw new CustomApiException("게시글을 수정할 권한이 없습니다.", HttpStatus.FORBIDDEN);
         }
 
          int result = boardRepository.updateById(id, boardUpdateReqDto.getTitle(), boardUpdateReqDto.getContent());

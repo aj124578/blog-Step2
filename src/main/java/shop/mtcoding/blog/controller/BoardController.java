@@ -39,7 +39,7 @@ public class BoardController {
 
 
     // 글수정
-    @PutMapping("/board/{id}/update")
+    @PutMapping("/board/{id}")
     public @ResponseBody ResponseEntity<?> update(@PathVariable int id, @RequestBody BoardUpdateReqDto boardUpdateReqDto) {
         User principal = (User) session.getAttribute("principal");
         if (principal == null) {
