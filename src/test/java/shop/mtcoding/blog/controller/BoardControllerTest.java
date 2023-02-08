@@ -74,6 +74,8 @@ public class BoardControllerTest {
         boardUpdateReqDto.setTitle("제목1-수정");
         boardUpdateReqDto.setContent("내용1-수정");
 
+
+        // json으로 받아온 데이터를 
         String requestBody = om.writeValueAsString(boardUpdateReqDto);
         System.out.println("테스트 : " + requestBody);
 

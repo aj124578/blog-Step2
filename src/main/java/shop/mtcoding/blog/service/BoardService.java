@@ -11,6 +11,7 @@ import shop.mtcoding.blog.handler.ex.CustomApiException;
 import shop.mtcoding.blog.handler.ex.CustomException;
 import shop.mtcoding.blog.model.Board;
 import shop.mtcoding.blog.model.BoardRepository;
+import shop.mtcoding.blog.util.Thumbnailparse;
 
 @Transactional(readOnly = true)
 @Service
@@ -25,13 +26,13 @@ public class BoardService {
     
     @Transactional
     public void 글쓰기(BoardSaveReqDto boardSaveReqDto, int userId) {
-
+        String img = Thumbnailparse.thParse(boardSaveReqDto.getContent());
         // 1. content 내용을 Document로 받고, img 찾아내서(0, 1, 2), src를 찾아서 thumbnail 추가
 
         int result = boardRepository.insert(
                 boardSaveReqDto.getTitle(),
                 boardSaveReqDto.getContent(),
-                null,
+                img,
                 userId);
         if (result != 1) {
             throw new CustomException("글쓰기 실패", HttpStatus.INTERNAL_SERVER_ERROR);
@@ -67,12 +68,14 @@ public class BoardService {
         if (boardPS.getUserId() != principalId) {
             throw new CustomApiException("게시글을 수정할 권한이 없습니다.", HttpStatus.FORBIDDEN);
         }
+        String img = Thumbnailparse.thParse(boardUpdateReqDto.getContent());
 
-         int result = boardRepository.updateById(id, boardUpdateReqDto.getTitle(), boardUpdateReqDto.getContent());
-         if(result != 1){
+        int result = boardRepository.updateById(id, boardUpdateReqDto.getTitle(), boardUpdateReqDto.getContent(), img);
+        if(result != 1){
             throw new CustomApiException("게시글 수정에 실패하였습니다.", HttpStatus.INTERNAL_SERVER_ERROR);
-         }
+        }
 
     }
+
 
 }

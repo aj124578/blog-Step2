@@ -41,6 +41,7 @@ public class BoardController {
     // 글수정
     @PutMapping("/board/{id}")
     public @ResponseBody ResponseEntity<?> update(@PathVariable int id, @RequestBody BoardUpdateReqDto boardUpdateReqDto) {
+        System.out.println(boardUpdateReqDto.getTitle());
         User principal = (User) session.getAttribute("principal");
         if (principal == null) {
             throw new CustomApiException("인증이 되지 않았습니다.", HttpStatus.UNAUTHORIZED);

@@ -4,11 +4,11 @@
 
         <div class="container my-3">
             <c:if test="${dto.userId == principal.id}" >
+            </c:if>
                 <div class="mb-3">
                     <a href="/board/${dto.id}/updateForm" class="btn btn-warning">수정</a>
                     <button onclick="deleteById(${dto.id})" class="btn btn-danger">삭제</button>
                 </div>
-            </c:if>
             
             <script> // java 스크립트안에서 el 표현식 쓰지말기, 쓰면 function을 따로 파일로 못뺌
                 function deleteById(id){

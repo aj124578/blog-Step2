@@ -10,9 +10,7 @@
                 </div>
 
                 <div class="form-group">
-                    <textarea class="form-control summernote" rows="5" id="content" name="content">
-${board.content}
-                </textarea>
+                    <textarea class="form-control summernote" rows="5" id="content" name="content">${board.content}</textarea>
                 </div>
             <button onclick="updateById(${board.id})" type="button" class="btn btn-primary">글수정완료</button>
             </form>
@@ -22,20 +20,21 @@ ${board.content}
         <script> 
                 function updateById(id){
                     let data = {
-                        title:$("#title").val(),
-                        content:$("#content").val()
+                        "title":$("#title").val(),
+                        "content":$("#content").val()
                     }
 
                     $.ajax({
                         type:"put",
                         url:"/board/"+id,
                         data: JSON.stringify(data),
-                        contentType:"applicaton/json; charset=utf-8",
+                        contentType:"application/json; charset=UTF-8",
                         dataType:"json" // default : 응답의 mime 타입으로 유추함
                     }).done((res) => { 
                         alert(res.msg);
                         location.href="/board/"+id;
                     }).fail((err) => { 
+                        console.log(err);
                         alert(err.responseJSON.msg);
                     });
                 }
