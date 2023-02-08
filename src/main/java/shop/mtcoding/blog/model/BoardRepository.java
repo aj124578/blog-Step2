@@ -15,7 +15,7 @@ public interface BoardRepository {
 
     public List<BoardMainRespDto> findAllWithUser();
 
-    public List<User> findAll();
+    public List<Board> findAll();
 
     public Board findById(int id);
 

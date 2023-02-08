@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -13,6 +14,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,9 +26,11 @@ import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import shop.mtcoding.blog.dto.board.BoardReq.BoardUpdateReqDto;
 import shop.mtcoding.blog.dto.board.BoardResp;
 import shop.mtcoding.blog.dto.board.BoardResp.BoardDetailRespDto;
 import shop.mtcoding.blog.model.User;
@@ -36,21 +41,62 @@ import shop.mtcoding.blog.model.User;
  * AutoConfigureMockMvc는 Mock 환경의 Ioc 컨테이너에 MockMvc Bean이 생성됨
  */
 
-
+@Transactional // 메서드 실행 직후 롤백!! , 기본은 runtime // 단점 : auto_increment 초기화가 안됨
 @AutoConfigureMockMvc
 @SpringBootTest(webEnvironment = WebEnvironment.MOCK) // MOCK 라고 하면 가짜 환경의 Ioc 컨테이너가 존재하게 되는 것
 public class BoardControllerTest {
 
     @Autowired
     private MockMvc mvc;
-
-    private MockHttpSession mockSession;
     
     @Autowired
     private ObjectMapper om;
 
+    private MockHttpSession mockSession;
+    
+    @BeforeAll
+    public static void 테이블차리기(){ // 컨트롤러 테스트가 실행되기 직전에 한번 실행됨
+        // 테이블 만들고
+        
+    }
+
+    @AfterEach
+    public  void teardown() { // 메서드가 실행된 직후 매번 실행됨
+        // 데이터 지우고(trumcate로 데이터만 날림), 다시 insert
+
+    }
+
+    @Test
+    public void update_test() throws Exception {
+        // given
+        int id = 1;
+        BoardUpdateReqDto boardUpdateReqDto = new BoardUpdateReqDto();
+        boardUpdateReqDto.setTitle("제목1-수정");
+        boardUpdateReqDto.setContent("내용1-수정");
+
+        String requestBody = om.writeValueAsString(boardUpdateReqDto);
+        System.out.println("테스트 : " + requestBody);
+
+
+        // when
+        ResultActions resultActions = mvc.perform(
+                put("/board/" + id)
+                        .content(requestBody)
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .session(mockSession));
+
+        // then
+        resultActions.andExpect(status().isOk());
+        resultActions.andExpect(jsonPath("$.code").value(1));
+        
+    }
+
+
     @BeforeEach // Test 메서드 실행 직전 마다 호출됨
     public void setUp(){
+        // 테이블 insert
+
+        // 세션 주입
         User user = new User();
         user.setId(1);
         user.setUsername("ssar");
@@ -76,8 +122,8 @@ public class BoardControllerTest {
 
         // then
         resultActions.andExpect(status().isOk());
-        assertThat(dto.getUsername()).isEqualTo("ssar");
         assertThat(dto.getUserId()).isEqualTo(1);
+        assertThat(dto.getUsername()).isEqualTo("ssar");
         assertThat(dto.getTitle()).isEqualTo("1번째 제목");
 
     }
@@ -124,6 +170,8 @@ public class BoardControllerTest {
         // then
         resultActions.andExpect(status().is3xxRedirection());
     }
+
+
 
     @Test
     public void delete_test() throws Exception {

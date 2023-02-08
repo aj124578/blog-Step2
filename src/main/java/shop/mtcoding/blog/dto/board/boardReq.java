@@ -11,4 +11,13 @@ public class BoardReq {
         private String title;
         private String content;
     }
+
+    @Setter
+    @Getter
+    public static class BoardUpdateReqDto {
+        private int id;
+        private String title;
+        private String content;
+        private int userId;
+    }
 }
