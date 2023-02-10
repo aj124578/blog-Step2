@@ -4,13 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import shop.mtcoding.blog.controller.ReplyController.ReplySaveReqDto;
-import shop.mtcoding.blog.dto.user.UserReq.JoinReqDto;
-import shop.mtcoding.blog.dto.user.UserReq.LoginReqDto;
+import shop.mtcoding.blog.dto.reply.ReplyReq.ReplySaveReqDto;
 import shop.mtcoding.blog.handler.ex.CustomException;
 import shop.mtcoding.blog.model.ReplyRepository;
-import shop.mtcoding.blog.model.User;
-import shop.mtcoding.blog.model.UserRepository;
 
 @Service
 public class ReplyService {

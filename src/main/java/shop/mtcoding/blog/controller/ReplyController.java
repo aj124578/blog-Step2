@@ -7,17 +7,19 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import lombok.Getter;
-import lombok.Setter;
-import shop.mtcoding.blog.handler.ex.CustomApiException;
+import shop.mtcoding.blog.dto.reply.ReplyReq.ReplySaveReqDto;
 import shop.mtcoding.blog.handler.ex.CustomException;
 import shop.mtcoding.blog.model.User;
+import shop.mtcoding.blog.service.ReplyService;
 
 @Controller
 public class ReplyController {
     
     @Autowired
     private HttpSession session;
+
+    @Autowired
+    private ReplyService replyService;
 
     @PostMapping("/reply")
     public String save(ReplySaveReqDto replySaveReqDto){
@@ -37,14 +39,10 @@ public class ReplyController {
         }
 
         // 서비스 호출 (replySaveReqDto, principal.getId())
-
+        replyService.댓글쓰기(replySaveReqDto, principal.getId());
+        
         return "redirect:/board/" + replySaveReqDto.getBoardId();
     }
 
-    @Setter
-    @Getter
-    public static class ReplySaveReqDto {
-        private String comment;
-        private Integer boardId;
-    }
+    
 }
