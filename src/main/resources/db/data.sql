@@ -9,4 +9,12 @@ INSERT INTO board_tb(title, content,  thumbnail, user_id, created_at) values('4�
 INSERT INTO board_tb(title, content,  thumbnail, user_id, created_at) values('5번째 제목', '5번째 내용', '/images/dora.png', 2, now());
 INSERT INTO board_tb(title, content,  thumbnail, user_id, created_at) values('6번째 제목', '6번째 내용', '/images/dora.png', 2, now());
 
+
+
+INSERT INTO reply_tb(comment, user_id,  board_id, created_at) values('게시글 a : 댓글1-1', 1, 1, now());
+INSERT INTO reply_tb(comment, user_id,  board_id, created_at) values('게시글 b : 댓글1-1', 1, 2, now());
+
+INSERT INTO reply_tb(comment, user_id,  board_id, created_at) values('게시글 a : 댓글2-1', 2, 1, now());
+INSERT INTO reply_tb(comment, user_id,  board_id, created_at) values('게시글 b : 댓글2-1', 2, 2, now());
+
 commit;
