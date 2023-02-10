@@ -8,9 +8,9 @@ import org.jsoup.select.Elements;
 
 public class Thumbnailparse {
 
-    public static String thParse(String html) {
+    public static String thParse(String a) {
         String img = "";
-        Document doc = Jsoup.parse(html);
+        Document doc = Jsoup.parse(a); // 데이터, 파일을 받아서 html로 파싱해줌
         Elements els = doc.select("img");
         if (els.size() == 0) {
             return "/images/dora.png";

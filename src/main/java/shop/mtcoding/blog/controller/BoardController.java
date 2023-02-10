@@ -38,6 +38,12 @@ public class BoardController {
     private BoardService boardService;
 
 
+    @PostMapping("/juso")
+    public @ResponseBody String callback(String roadFullAddr){
+        System.out.println("도로명 주소 : " + roadFullAddr);
+        return "ok";
+    }
+
     // 글수정
     @PutMapping("/board/{id}")
     public @ResponseBody ResponseEntity<?> update(@PathVariable int id, @RequestBody BoardUpdateReqDto boardUpdateReqDto) {
@@ -62,9 +68,9 @@ public class BoardController {
 
     @DeleteMapping("/board/{id}")
     public @ResponseBody ResponseEntity<?> delete(@PathVariable int id){
-        User principal = (User) session.getAttribute("principal"); // 이런거는 앞부분 필터에서 막는게 편함
+        User principal = (User) session.getAttribute("principal"); 
         if (principal == null) {
-            throw new CustomApiException("인증이 되지 않았습니다.", HttpStatus.UNAUTHORIZED); // UNAUTHORIZED : 401 임
+            throw new CustomApiException("인증이 되지 않았습니다.", HttpStatus.UNAUTHORIZED); 
         }
         boardService.게시글삭제(id, principal.getId());
         return new ResponseEntity<>(new ResponseDto<>(1, "삭제성공", null), HttpStatus.OK);
@@ -72,33 +78,35 @@ public class BoardController {
 
     }
 
+    // 글쓰기
     @PostMapping("/board")
-    public String save(BoardSaveReqDto boardSaveReqDto){
+    public @ResponseBody ResponseEntity<?> save(@RequestBody BoardSaveReqDto boardSaveReqDto){ // json으로 받을 때 requestBody가 필요함
         // 1. 권한 검사
         User principal = (User) session.getAttribute("principal"); // 이런거는 앞부분 필터에서 막는게 편함
         if (principal == null) {
-            throw new CustomException("인증이 되지 않았습니다.", HttpStatus.UNAUTHORIZED); // UNAUTHORIZED : 401 임
+            throw new CustomApiException("인증이 되지 않았습니다.", HttpStatus.UNAUTHORIZED); // UNAUTHORIZED : 401 임
         }
         
         // 2. 유효성 검사
         if (boardSaveReqDto.getTitle() == null || boardSaveReqDto.getTitle().isEmpty()) {
-            throw new CustomException("title을 작성해주세요");
+            throw new CustomApiException("title을 작성해주세요");
         }
 
         if (boardSaveReqDto.getContent() == null || boardSaveReqDto.getContent().isEmpty()) {
-            throw new CustomException("content를 작성해주세요");
+            throw new CustomApiException("content를 작성해주세요");
         }
 
         if (boardSaveReqDto.getTitle().length() > 100) {
-            throw new CustomException("title의 길이가 100자 이하여야 합니다.");
+            throw new CustomApiException("title의 길이가 100자 이하여야 합니다.");
         }
 
         // 3. 서비스 호출
         boardService.글쓰기(boardSaveReqDto, principal.getId());
         
-        return "redirect:/";
+        return new ResponseEntity<>(new ResponseDto<>(1, "글쓰기 성공", null), HttpStatus.CREATED);
     }
     
+
     @GetMapping({ "/", "/board" })
     public String main(Model model) {
         model.addAttribute("dtos", boardRepository.findAllWithUser());

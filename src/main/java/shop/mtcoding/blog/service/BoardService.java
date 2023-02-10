@@ -26,13 +26,13 @@ public class BoardService {
     
     @Transactional
     public void 글쓰기(BoardSaveReqDto boardSaveReqDto, int userId) {
-        String img = Thumbnailparse.thParse(boardSaveReqDto.getContent());
+        String thumbnailImg = Thumbnailparse.thParse(boardSaveReqDto.getContent());
         // 1. content 내용을 Document로 받고, img 찾아내서(0, 1, 2), src를 찾아서 thumbnail 추가
 
         int result = boardRepository.insert(
                 boardSaveReqDto.getTitle(),
                 boardSaveReqDto.getContent(),
-                img,
+                thumbnailImg,
                 userId);
         if (result != 1) {
             throw new CustomException("글쓰기 실패", HttpStatus.INTERNAL_SERVER_ERROR);
