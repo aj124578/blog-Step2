@@ -24,5 +24,10 @@ public class ReplyService {
         }
     }
 
+    @Transactional
+    public void 댓글삭제(int id, int principalId) {
+        
+    }
+
 
 }

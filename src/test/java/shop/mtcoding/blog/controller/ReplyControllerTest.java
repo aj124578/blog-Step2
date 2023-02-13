@@ -17,6 +17,7 @@ import shop.mtcoding.blog.model.User;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -45,6 +46,20 @@ public class ReplyControllerTest {
 
         mockSession = new MockHttpSession();
         mockSession.setAttribute("principal", user);
+    }
+
+    @Test
+    public void deleteReply_test() throws Exception { // 지금은 값을 잘받는지, 세션이 있는지를 보면됨 서비스를 안만들어서 id = 10을해도 db에 연결안하기 때문에 잘 돌아감
+        // given 클라이언트한테 받는 데이터들
+        int id = 10;
+
+        // when
+        ResultActions resultActions = mvc.perform(
+                delete("/reply/" + id)
+                        .session(mockSession));
+
+        // then
+        resultActions.andExpect(status().isOk());
     }
 
     @Test
