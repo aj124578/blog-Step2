@@ -4,11 +4,11 @@
 
         <div class="container my-3">
             <c:if test="${boardDto.userId == principal.id}" >
-            </c:if>
                 <div class="mb-3">
                     <a href="/board/${boardDto.id}/updateForm" class="btn btn-warning">수정</a>
                     <button onclick="deleteById(${dto.id})" class="btn btn-danger">삭제</button>
                 </div>
+            </c:if>
             
             <script> // java 스크립트안에서 el 표현식 쓰지말기, 쓰면 function을 따로 파일로 못뺌
                 function deleteById(id){
@@ -27,7 +27,7 @@
             </script>
 
             <div class="mb-2">
-                글 번호 : <span id="id"><i>${boardDto.id} </i></span> 작성자 : <span class="me-3"><i>${dto.username} </i></span>
+                글 번호 : <span id="id"><i>${boardDto.id} </i></span> 작성자 : <span class="me-3"><i>${boardDto.username} </i></span>
 
                 <i id="heart" class="fa-regular fa-heart my-xl my-cursor" value="no"></i>
             </div>
@@ -41,6 +41,8 @@
             </div>
             <hr />
 
+
+            <%-- 댓글 --%>
             <div class="card">
                 <form action="/reply" method="post">
                     <input type="hidden" name="boardId" value="${boardDto.id}">
@@ -61,7 +63,9 @@
                         <div>${reply.comment}</div>
                         <div class="d-flex">
                             <div class="font-italic">작성자 : ${reply.username} </div>
-                            <button onClick="deleteByReplyId(${reply.id})" class="badge bg-secondary">삭제</button>
+                            <c:if test="${principal.id == reply.userId}" >
+                                <button onClick="deleteByReplyId(${reply.id})" class="badge bg-secondary">삭제</button>
+                            </c:if>
                         </div>
                     </li>
                     </c:forEach>

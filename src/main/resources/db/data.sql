@@ -11,10 +11,10 @@ INSERT INTO board_tb(title, content,  thumbnail, user_id, created_at) values('6�
 
 
 
-INSERT INTO reply_tb(comment, user_id,  board_id, created_at) values('게시글 a : 댓글1-1', 1, 1, now());
-INSERT INTO reply_tb(comment, user_id,  board_id, created_at) values('게시글 b : 댓글1-1', 1, 2, now());
+INSERT INTO reply_tb(comment, user_id,  board_id, created_at) values('게시글 a : 댓글1', 1, 1, now());
+INSERT INTO reply_tb(comment, user_id,  board_id, created_at) values('게시글 b : 댓글1', 1, 2, now());
 
-INSERT INTO reply_tb(comment, user_id,  board_id, created_at) values('게시글 a : 댓글2-1', 2, 1, now());
-INSERT INTO reply_tb(comment, user_id,  board_id, created_at) values('게시글 b : 댓글2-1', 2, 2, now());
+INSERT INTO reply_tb(comment, user_id,  board_id, created_at) values('게시글 a : 댓글2', 2, 1, now());
+INSERT INTO reply_tb(comment, user_id,  board_id, created_at) values('게시글 b : 댓글2', 2, 2, now());
 
 commit;
