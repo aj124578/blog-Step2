@@ -55,8 +55,8 @@
 
                         </ul>
                         <div>
-                            <a href="/user/profileUpdate"><img src="/images/profile.jfif" style="width: 35px;"
-                                    class="rounded-circle" alt="Cinque Terre"></a>
+                            <a href="/user/profileUpdateForm"><img src="${principal.profile == null ? '/images/profile.jfif' : principal.profile}" style="width: 35px;"
+                            class="rounded-circle" alt="Cinque Terre"></a>
                         </div>
                     </div>
 

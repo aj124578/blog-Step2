@@ -9,7 +9,8 @@
                     <button onclick="deleteById(${dto.id})" class="btn btn-danger">삭제</button>
                 </div>
             </c:if>
-            
+
+
             <script> // java 스크립트안에서 el 표현식 쓰지말기, 쓰면 function을 따로 파일로 못뺌
                 function deleteById(id){
                     $.ajax({
@@ -75,10 +76,17 @@
 
         <script>
             function deleteByReplyId(id) {
-                // $("#reply-"+id).remove();
-                // location.reload();
-                
-            }
+                    $.ajax({
+                        type:"delete",
+                        url:"/reply/"+id,
+                        dataType:"json"
+                    }).done((res) => { // 20x 일때
+                        alert(res.msg);
+                        $("#reply-" + id).remove() // ajax 통신 -> 한번에 통신 끝내는것
+                    }).fail((err) => { // 40x, 50x 일때
+                        alert(err.responseJSON.msg);
+                    });
+                }
         </script>
 
         <%@ include file="../layout/footer.jsp" %>

@@ -20,4 +20,5 @@ public class UserReq {
         private String username;
         private String password;
     }
+
 }
